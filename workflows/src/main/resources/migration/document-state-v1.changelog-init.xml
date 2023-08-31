@@ -22,6 +22,9 @@
             <column name="document_type" type="NVARCHAR(64)">
                 <constraints nullable="false"/>
             </column>
+            <column name="comments" type="NVARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
             <column name="version_no" type="INTEGER">
                 <constraints nullable="false"/>
             </column>

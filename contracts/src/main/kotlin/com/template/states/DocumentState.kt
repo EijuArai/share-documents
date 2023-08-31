@@ -28,14 +28,15 @@ enum class DocumentStatus {
 data class DocumentState(
     val proposer: Party,
     val consenter: Party,
-    val document: String,
     val documentTitle: String,
     val documentType: DocumentTypes,
+    val documentJson: String,
+    val comments: String?,
     val versionNo: Int,
     val status: DocumentStatus,
     val updateTime: Date,
     override val linearId: UniqueIdentifier,
-    override val participants: List<AbstractParty> = listOf()
+    override val participants: List<AbstractParty> = listOf(proposer, consenter)
 ) : LinearState, QueryableState {
     override fun generateMappedObject(schema: MappedSchema): PersistentState {
         return when (schema) {
@@ -44,6 +45,7 @@ data class DocumentState(
                 this.consenter.name.toString(),
                 this.documentTitle,
                 this.documentType.name,
+                this.comments,
                 this.versionNo,
                 this.updateTime,
                 this.linearId.id

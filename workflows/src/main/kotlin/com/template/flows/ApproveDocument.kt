@@ -22,7 +22,8 @@ import java.util.*
 @InitiatingFlow
 @StartableByRPC
 class ApproveDocument(
-    private val linearId: UniqueIdentifier
+    private val linearId: UniqueIdentifier,
+    private val comments: String?
 ) : FlowLogic<SignedTransaction>() {
 
     @Suspendable
@@ -39,7 +40,7 @@ class ApproveDocument(
         }
 
         if (inputState.status != DocumentStatus.PROPOSED) {
-            throw FlowException("Only the proposed document can be agreed.")
+            throw FlowException("Only PROPOSED document can be agreed.")
         }
 
         val participants = inputState.participants
@@ -51,9 +52,10 @@ class ApproveDocument(
         val outputState = DocumentState(
             inputState.proposer,
             inputState.consenter,
-            inputState.document,
             inputState.documentTitle,
             inputState.documentType,
+            inputState.documentJson,
+            comments,
             inputState.versionNo + 1,
             DocumentStatus.APPROVED,
             Date(),

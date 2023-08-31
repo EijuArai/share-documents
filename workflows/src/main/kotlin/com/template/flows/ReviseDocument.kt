@@ -24,9 +24,10 @@ import java.util.*
 @StartableByRPC
 class ReviseDocument(
     private val linearId: UniqueIdentifier,
-    private val document: String,
     private val documentTitle: String,
-    private val documentType: DocumentTypes
+    private val documentType: DocumentTypes,
+    private val documentJson: String,
+    private val comments: String?
 ) : FlowLogic<SignedTransaction>() {
 
     @Suspendable
@@ -42,8 +43,8 @@ class ReviseDocument(
             throw FlowException("Initiator node should be proposer.")
         }
 
-        if (inputState.status == DocumentStatus.APPROVED) {
-            throw FlowException("Approved document can not be revised.")
+        if (inputState.status != DocumentStatus.PROPOSED && inputState.status != DocumentStatus.REJECTED) {
+            throw FlowException("Only PROPOSED or REJECTED document can be revised.")
         }
 
         val participants = inputState.participants
@@ -55,9 +56,10 @@ class ReviseDocument(
         val outputState = DocumentState(
             inputState.proposer,
             inputState.consenter,
-            document,
             documentTitle,
             documentType,
+            documentJson,
+            comments,
             inputState.versionNo + 1,
             DocumentStatus.PROPOSED,
             Date(),

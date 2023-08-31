@@ -33,6 +33,9 @@ object DocumentSchemaV1: MappedSchema(
         @Column(name = "document_type")
         val documentType: String,
 
+        @Column(name = "comments")
+        val comments: String?,
+
         @Column(name = "version_no")
         val versionNo: Int,
 
@@ -43,7 +46,7 @@ object DocumentSchemaV1: MappedSchema(
         val linearId: UUID
     ) : PersistentState() {
         // Default constructor required by hibernate.
-        constructor(): this("", "", "", "", 0, Date(), UUID.randomUUID())
+        constructor(): this("", "", "", "", null, 0, Date(), UUID.randomUUID())
     }
 
 }

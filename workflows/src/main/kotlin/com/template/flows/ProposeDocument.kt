@@ -25,9 +25,10 @@ import java.util.*
 class ProposeDocument(
     private val proposer: Party,
     private val consenter: Party,
-    private val document: String,
     private val documentTitle: String,
-    private val documentType: String
+    private val documentType: String,
+    private val documentJson: String,
+    private val comments: String?
 ) : FlowLogic<SignedTransaction>() {
 
     @Suspendable
@@ -43,9 +44,10 @@ class ProposeDocument(
         val output = DocumentState(
             proposer,
             consenter,
-            document,
             documentTitle,
             DocumentTypes.valueOf(documentType),
+            documentJson,
+            comments,
             0,
             DocumentStatus.PROPOSED,
             Date(),

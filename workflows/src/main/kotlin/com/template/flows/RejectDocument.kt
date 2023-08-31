@@ -22,7 +22,8 @@ import java.util.*
 @InitiatingFlow
 @StartableByRPC
 class RejectDocument(
-    private val linearId: UniqueIdentifier
+    private val linearId: UniqueIdentifier,
+    private val comments: String?
 ) : FlowLogic<SignedTransaction>() {
 
     @Suspendable
@@ -39,7 +40,7 @@ class RejectDocument(
         }
 
         if (inputState.status != DocumentStatus.PROPOSED && inputState.status != DocumentStatus.APPROVED) {
-            throw FlowException("Only the proposed or approved document can be rejected.")
+            throw FlowException("Only PROPOSED or APPROVED document can be rejected.")
         }
 
         val participants = inputState.participants
@@ -51,9 +52,10 @@ class RejectDocument(
         val outputState = DocumentState(
             inputState.proposer,
             inputState.consenter,
-            inputState.document,
             inputState.documentTitle,
             inputState.documentType,
+            inputState.documentJson,
+            comments,
             inputState.versionNo + 1,
             DocumentStatus.REJECTED,
             Date(),
