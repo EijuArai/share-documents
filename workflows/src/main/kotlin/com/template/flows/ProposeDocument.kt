@@ -77,7 +77,7 @@ class ProposeDocumentResponder(val counterpartySession: FlowSession) : FlowLogic
     override fun call(): SignedTransaction {
         val signTransactionFlow = object : SignTransactionFlow(counterpartySession) {
             override fun checkTransaction(stx: SignedTransaction) = requireThat {
-                //Addition checks
+                //Addition checks if you need
             }
         }
         val txId = subFlow(signTransactionFlow).id

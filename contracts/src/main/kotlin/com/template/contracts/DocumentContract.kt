@@ -29,7 +29,7 @@ class DocumentContract : Contract {
 
                 val output = tx.outputsOfType<DocumentState>().single()
 
-                "Proposer and Consenter must be different parties".using(output.proposer != output.consenter)
+                "Proposer and Consenter should be different parties".using(output.proposer != output.consenter)
                 "Participants should be Proposer and Consenter".using(output.participants == listOf(output.proposer, output.consenter))
                 "The initial status of the output should be PROPOSED".using(output.status == DocumentStatus.PROPOSED)
                 "The versionNo should be 0".using(output.versionNo == 0)
@@ -47,7 +47,7 @@ class DocumentContract : Contract {
                 val input = tx.inputsOfType<DocumentState>().single()
                 val output = tx.outputsOfType<DocumentState>().single()
 
-                "Proposer and Consenter must be different parties".using(output.proposer != output.consenter)
+                "Proposer and Consenter should be different parties".using(output.proposer != output.consenter)
                 "Participants should be Proposer and Consenter".using(output.participants == listOf(output.proposer, output.consenter))
                 "The status of the input should be PROPOSED".using(input.status == DocumentStatus.PROPOSED)
                 "The status of the output should be REJECTED".using(output.status == DocumentStatus.REJECTED)
@@ -76,7 +76,7 @@ class DocumentContract : Contract {
                 val input = tx.inputsOfType<DocumentState>().single()
                 val output = tx.outputsOfType<DocumentState>().single()
 
-                "Proposer and Consenter must be different parties".using(output.proposer != output.consenter)
+                "Proposer and Consenter should be different parties".using(output.proposer != output.consenter)
                 "Participants should be Proposer and Consenter".using(output.participants == listOf(output.proposer, output.consenter))
                 "The status of the input should be PROPOSED or REJECTED".using(input.status == DocumentStatus.PROPOSED || input.status == DocumentStatus.REJECTED)
                 "The status of the output should be PROPOSED".using(output.status == DocumentStatus.PROPOSED)
